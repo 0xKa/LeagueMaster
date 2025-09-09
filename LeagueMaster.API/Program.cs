@@ -13,7 +13,11 @@ builder.Services.AddSwaggerGen();
 
 // DB 
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<LeagueMasterDbContext>(opt => opt.UseSqlServer(conn));
+builder.Services.AddDbContext<LeagueMasterDbContext>(option => 
+    option.UseSqlServer(conn)
+          // console logging ... might use serilog later
+          .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+          .EnableSensitiveDataLogging()); 
 
 // DI: repository (Infrastructure) and service (Application)
 builder.Services.AddScoped<ILeagueRepository, LeagueRepository>();
