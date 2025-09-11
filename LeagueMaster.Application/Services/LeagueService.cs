@@ -16,28 +16,56 @@ namespace LeagueMaster.Application.Services
         public async Task<IEnumerable<LeagueDto>> GetAllAsync()
         {
             var leagues = await _repo.GetAllAsync();
-            return leagues.Select(l => new LeagueDto(l.Id, l.Name, l.Country, l.Season, l.CreatedAt));
+            return leagues.Select(l => new LeagueDto
+            {
+                Id = l.Id,
+                Name = l.Name,
+                Country = l.Country,
+                Season = l.Season,
+                StartDate = l.StartDate,
+                EndDate = l.EndDate
+            });
         }
 
         public async Task<LeagueDto?> GetByIdAsync(int id)
         {
             var l = await _repo.GetByIdAsync(id);
             if (l == null) return null;
-            return new LeagueDto(l.Id, l.Name, l.Country, l.Season, l.CreatedAt);
+            return new LeagueDto
+            {
+                Id = l.Id,
+                Name = l.Name,
+                Country = l.Country,
+                Season = l.Season,
+                StartDate = l.StartDate,
+                EndDate = l.EndDate
+            };
         }
 
         public async Task<LeagueDto> CreateAsync(LeagueInputDto dto)
         {
-            var l = new League
+            var league = new League
             {
                 Name = dto.Name,
                 Country = dto.Country,
                 Season = dto.Season,
-                CreatedAt = DateTime.Now
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                //CreatedAt = DateTime.Now, 
+                //UpdatedAt = DateTime.Now // DbContext should handle audit fields
+
             };
 
-            var created = await _repo.AddAsync(l);
-            return new LeagueDto(created.Id, created.Name, created.Country, created.Season, created.CreatedAt);
+            var created = await _repo.AddAsync(league);
+            return new LeagueDto
+            {
+                Id = league.Id,
+                Name = league.Name,
+                Country = league.Country,
+                Season = league.Season,
+                StartDate = league.StartDate,
+                EndDate = league.EndDate
+            };
         }
 
         public async Task<bool> UpdateAsync(int id, LeagueInputDto dto)
@@ -48,6 +76,10 @@ namespace LeagueMaster.Application.Services
             existing.Name = dto.Name;
             existing.Country = dto.Country;
             existing.Season = dto.Season;
+            existing.StartDate = dto.StartDate;
+            existing.EndDate = dto.EndDate;
+
+            //existing.UpdatedAt = DateTime.Now; // db context should handle this
 
             return await _repo.UpdateAsync(existing);
         }

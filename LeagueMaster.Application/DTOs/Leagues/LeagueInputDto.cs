@@ -10,6 +10,8 @@ namespace LeagueMaster.Application.DTOs.Leagues
         public string Country { get; set; } = null!;
         [Required]
         public string Season { get; set; } = null!;
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
 }
