@@ -26,7 +26,7 @@ namespace LeagueMaster.Application.Services
             return new LeagueDto(l.Id, l.Name, l.Country, l.Season, l.CreatedAt);
         }
 
-        public async Task<LeagueDto> CreateAsync(CreateLeagueDto dto)
+        public async Task<LeagueDto> CreateAsync(LeagueInputDto dto)
         {
             var l = new League
             {
@@ -40,7 +40,7 @@ namespace LeagueMaster.Application.Services
             return new LeagueDto(created.Id, created.Name, created.Country, created.Season, created.CreatedAt);
         }
 
-        public async Task<bool> UpdateAsync(int id, UpdateLeagueDto dto)
+        public async Task<bool> UpdateAsync(int id, LeagueInputDto dto)
         {
             var existing = await _repo.GetByIdAsync(id);
             if (existing == null) return false;

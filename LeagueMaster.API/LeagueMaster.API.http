@@ -1,6 +1,6 @@
 @LeagueMaster.API_HostAddress = http://localhost:5089
 
-# GET {{LeagueMaster.API_HostAddress}}/weatherforecast/
+# GET {{LeagueMaster.API_HostAddress}}/league/
 # Accept: application/json
 
 ###

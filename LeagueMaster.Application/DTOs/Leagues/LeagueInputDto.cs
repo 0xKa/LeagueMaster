@@ -2,7 +2,7 @@
 
 namespace LeagueMaster.Application.DTOs.Leagues
 {
-    public class UpdateLeagueDto
+    public class LeagueInputDto
     {
         [Required]
         public string Name { get; set; } = null!;

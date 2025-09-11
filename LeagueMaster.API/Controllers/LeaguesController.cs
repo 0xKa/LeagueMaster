@@ -44,7 +44,7 @@ namespace LeagueMaster.API.Controllers
         [HttpPost(Name = "CreateLeague")]
         [ProducesResponseType(typeof(LeagueDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] CreateLeagueDto dto)
+        public async Task<IActionResult> Create([FromBody] LeagueInputDto dto)
         {
             if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
@@ -57,7 +57,7 @@ namespace LeagueMaster.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateLeagueDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] LeagueInputDto dto)
         {
             if (!ModelState.IsValid) 
                 return BadRequest(ModelState);

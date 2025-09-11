@@ -11,8 +11,8 @@ namespace LeagueMaster.Application.Services
     {
         Task<IEnumerable<LeagueDto>> GetAllAsync();
         Task<LeagueDto?> GetByIdAsync(int id);
-        Task<LeagueDto> CreateAsync(CreateLeagueDto dto);
-        Task<bool> UpdateAsync(int id, UpdateLeagueDto dto);
+        Task<LeagueDto> CreateAsync(LeagueInputDto dto);
+        Task<bool> UpdateAsync(int id, LeagueInputDto dto);
         Task<bool> DeleteAsync(int id);
     }
 }
