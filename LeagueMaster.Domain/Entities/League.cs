@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LeagueMaster.Domain.Entities;
 
-public class League
+public class League : BaseDomainObject
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string Country { get; set; } = null!;
     public string Season { get; set; } = null!;
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime StartDate { get; set; } = DateTime.Now;
+    public DateTime EndDate { get; set; } = DateTime.Now.AddMonths(3);
 }
