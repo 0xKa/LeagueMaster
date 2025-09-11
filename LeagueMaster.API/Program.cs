@@ -1,9 +1,12 @@
+using AutoMapper;
 using LeagueMaster.Application.Interfaces;
+using LeagueMaster.Application.Mappings;
 using LeagueMaster.Application.Services;
 using LeagueMaster.Infrastructure.Persistence;
 using LeagueMaster.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -11,6 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    // AutoMapper
+    builder.Services.AddAutoMapper(cfg =>
+    {
+        cfg.AddMaps(typeof(LeagueProfile).Assembly); // Assembly scanning(automatically finds all profiles)
+    });
 
     // DB 
     var conn = builder.Configuration.GetConnectionString("DefaultConnection");

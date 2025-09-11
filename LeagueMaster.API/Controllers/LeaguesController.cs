@@ -72,9 +72,13 @@ namespace LeagueMaster.API.Controllers
 
         [HttpDelete("{id:int}", Name = "DeleteLeague")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
+            if (id <= 0) 
+                return BadRequest("Invalid ID supplied");
+
             var deleted = await _service.DeleteAsync(id);
             
             if (!deleted) 
