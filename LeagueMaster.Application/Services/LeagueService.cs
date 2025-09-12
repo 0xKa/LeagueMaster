@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LeagueMaster.Application.DTOs.Leagues;
-using LeagueMaster.Application.Interfaces;
+using LeagueMaster.Application.Interfaces.Repositories;
+using LeagueMaster.Application.Interfaces.Services;
 using LeagueMaster.Domain.Entities;
 
 namespace LeagueMaster.Application.Services

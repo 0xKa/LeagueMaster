@@ -1,5 +1,4 @@
 using AutoMapper;
-using LeagueMaster.Application.Interfaces;
 using LeagueMaster.Application.Mappings;
 using LeagueMaster.Application.Services;
 using LeagueMaster.Infrastructure.Persistence;
@@ -7,6 +6,8 @@ using LeagueMaster.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Reflection;
+using LeagueMaster.Application.Interfaces.Repositories;
+using LeagueMaster.Application.Interfaces.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -32,6 +33,9 @@ var builder = WebApplication.CreateBuilder(args);
     // DI: repository (Infrastructure) and service (Application)
     builder.Services.AddScoped<ILeagueRepository, LeagueRepository>();
     builder.Services.AddScoped<ILeagueService, LeagueService>();
+
+    builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+    builder.Services.AddScoped<ITeamService, TeamService>();
 
 }
 

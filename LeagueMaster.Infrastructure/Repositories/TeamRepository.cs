@@ -5,42 +5,42 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeagueMaster.Infrastructure.Repositories
 {
-    public class LeagueRepository : ILeagueRepository
+    public class TeamRepository : ITeamRepository
     {
         private readonly LeagueMasterDbContext _context;
 
-        public LeagueRepository(LeagueMasterDbContext context)
+        public TeamRepository(LeagueMasterDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<League>> GetAllAsync()
+        public async Task<IEnumerable<Team>> GetAllAsync()
         {
-            return await _context.Leagues.AsNoTracking().ToListAsync();
+            return await _context.Teams.AsNoTracking().ToListAsync();
         }
 
-        public async Task<League?> GetByIdAsync(int id)
+        public async Task<Team?> GetByIdAsync(int id)
         {
-            return await _context.Leagues.FindAsync(id);
+            return await _context.Teams.FindAsync(id);
         }
 
-        public async Task<League> AddAsync(League league)
+        public async Task<Team> AddAsync(Team team)
         {
-            _context.Leagues.Add(league);
+            _context.Teams.Add(team);
             await _context.SaveChangesAsync();
-            return league;
+            return team;
         }
 
-        public async Task<bool> UpdateAsync(League league)
+        public async Task<bool> UpdateAsync(Team team)
         {
-            _context.Leagues.Update(league);
+            _context.Teams.Update(team);
             var affected = await _context.SaveChangesAsync();
             return affected > 0;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var affected = await _context.Leagues.Where(l => l.Id == id).ExecuteDeleteAsync();
+            var affected = await _context.Teams.Where(t => t.Id == id).ExecuteDeleteAsync();
             return affected > 0;
         }
     }

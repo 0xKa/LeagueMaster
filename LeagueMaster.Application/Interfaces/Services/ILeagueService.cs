@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeagueMaster.Application.Services
+namespace LeagueMaster.Application.Interfaces.Services
 {
     public interface ILeagueService
     {

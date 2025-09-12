@@ -1,6 +1,6 @@
 ﻿using LeagueMaster.Application.DTOs;
 using LeagueMaster.Application.DTOs.Leagues;
-using LeagueMaster.Application.Services;
+using LeagueMaster.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
