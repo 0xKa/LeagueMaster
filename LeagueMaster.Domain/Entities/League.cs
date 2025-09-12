@@ -8,4 +8,7 @@ public class League : BaseDomainObject
     public string Season { get; set; } = null!;
     public DateTime StartDate { get; set; } 
     public DateTime EndDate { get; set; }
+
+    public ICollection<Team> Teams { get; set; } = new List<Team>();
+
 }
