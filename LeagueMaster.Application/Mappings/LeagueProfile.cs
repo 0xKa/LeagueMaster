@@ -10,10 +10,10 @@ namespace LeagueMaster.Application.Mappings
         {
             CreateMap<League, LeagueDto>();
 
-            CreateMap<LeagueInputDto, League>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+            CreateMap<LeagueInputDto, League>();
+                //.ForMember(dest => dest.Id, opt => opt.Ignore())
+                //.ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                //.ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
         }
     }
 }

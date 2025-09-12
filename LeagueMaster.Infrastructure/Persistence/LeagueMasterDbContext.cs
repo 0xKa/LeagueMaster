@@ -10,6 +10,7 @@ namespace LeagueMaster.Infrastructure.Persistence
         public LeagueMasterDbContext(DbContextOptions<LeagueMasterDbContext> options) : base(options) { }
 
         public DbSet<League> Leagues { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
