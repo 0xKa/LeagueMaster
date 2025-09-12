@@ -1,38 +1,59 @@
-﻿using LeagueMaster.Application.DTOs.Team;
+﻿using AutoMapper;
+using LeagueMaster.Application.DTOs.Team;
+using LeagueMaster.Application.Interfaces.Repositories;
 using LeagueMaster.Application.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LeagueMaster.Domain.Entities;
 
 namespace LeagueMaster.Application.Services
 {
     public class TeamService : ITeamService
     {
-        public Task<TeamDto> CreateAsync(TeamInputDto dto)
+        private readonly ITeamRepository _repo;
+        private readonly IMapper _mapper;
+
+        public TeamService(ITeamRepository repo, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _repo = repo;
+            _mapper = mapper;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<IEnumerable<TeamDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var teams = await _repo.GetAllAsync();
+            return _mapper.Map<IEnumerable<TeamDto>>(teams);
         }
 
-        public Task<IEnumerable<TeamDto>> GetAllAsync()
+        public async Task<TeamDto?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var team = await _repo.GetByIdAsync(id);
+            
+            if (team == null) 
+                return null;
+
+            return _mapper.Map<TeamDto>(team);
         }
 
-        public Task<TeamDto?> GetByIdAsync(int id)
+        public async Task<TeamDto> CreateAsync(TeamInputDto dto)
         {
-            throw new NotImplementedException();
+            var team = _mapper.Map<Team>(dto);
+
+            var created = await _repo.AddAsync(team);
+            return _mapper.Map<TeamDto>(created);
         }
 
-        public Task<bool> UpdateAsync(int id, TeamInputDto dto)
+        public async Task<bool> UpdateAsync(int id, TeamInputDto dto)
         {
-            throw new NotImplementedException();
+            var existing = await _repo.GetByIdAsync(id);
+            if (existing == null) return false;
+
+            _mapper.Map(dto, existing);
+
+            return await _repo.UpdateAsync(existing);
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            return await _repo.DeleteAsync(id);
         }
     }
 }
