@@ -16,7 +16,6 @@ namespace LeagueMaster.Application.DTOs.Team
         public string? Stadium { get; set; }
 
         public int LeagueId { get; set; }
-        public string LeagueName { get; set; } = null!;
 
 
     }
