@@ -1,4 +1,3 @@
-using LeagueMaster.Application.DTOs.Players;
 using LeagueMaster.Application.DTOs.User;
 using LeagueMaster.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -60,6 +59,13 @@ namespace LeagueMaster.API.Controllers
 
             return Ok(result);
         }
+
+
+        /*
+         * To test role-based authorization, you can use the following endpoints.
+         * add key with value as follwing:
+         * Authorization: Bearer <access token>
+         */
 
         [Authorize(Roles = "User,Admin")]
         [HttpGet("authentication-only")]
