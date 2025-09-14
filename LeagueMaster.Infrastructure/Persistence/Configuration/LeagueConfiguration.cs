@@ -15,6 +15,11 @@ namespace LeagueMaster.Infrastructure.Persistence.Configuration
             builder.Property(x => x.Season).IsRequired().HasMaxLength(50);
             builder.Property(x => x.CreatedAt).IsRequired();
 
+            builder.HasMany(x => x.Teams)
+                   .WithOne(x => x.League)
+                   .HasForeignKey(x => x.LeagueId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
             //builder.HasData (
             //    new League { Id = 1, Name = "Reda League", Country = "Earth", Season = "2025", CreatedAt = new DateTime(2025, 09, 08, 00, 00, 00) }
             //);

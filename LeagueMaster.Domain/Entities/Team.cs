@@ -11,5 +11,7 @@ namespace LeagueMaster.Domain.Entities
         public int LeagueId { get; set; }
         public League League { get; set; } = null!;
 
+        public ICollection<Player> Players { get; set; } = new List<Player>();
+
     }
 }
