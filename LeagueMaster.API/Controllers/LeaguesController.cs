@@ -1,6 +1,7 @@
 ﻿using LeagueMaster.Application.DTOs;
 using LeagueMaster.Application.DTOs.Leagues;
 using LeagueMaster.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,6 +16,7 @@ namespace LeagueMaster.API.Controllers
         private readonly ILeagueService _service;
         public LeaguesController(ILeagueService service) => _service = service;
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet(Name = "GetAllLeagues")]
         [ProducesResponseType(typeof(IEnumerable<LeagueDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -28,6 +30,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(leagues);
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("{id:int}", Name = "GetLeagueById")]
         [ProducesResponseType(typeof(LeagueDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,6 +44,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(league);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost(Name = "CreateLeague")]
         [ProducesResponseType(typeof(LeagueDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -53,6 +57,7 @@ namespace LeagueMaster.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}", Name = "UpdateLeague")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -70,6 +75,7 @@ namespace LeagueMaster.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}", Name = "DeleteLeague")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

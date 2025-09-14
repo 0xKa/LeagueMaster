@@ -1,5 +1,6 @@
 using LeagueMaster.Application.DTOs.Matches;
 using LeagueMaster.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeagueMaster.API.Controllers
@@ -11,6 +12,7 @@ namespace LeagueMaster.API.Controllers
         private readonly IMatchService _service;
         public MatchesController(IMatchService service) => _service = service;
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet(Name = "GetAllMatches")]
         [ProducesResponseType(typeof(IEnumerable<MatchDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -24,6 +26,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(matches);
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("{id:int}", Name = "GetMatchById")]
         [ProducesResponseType(typeof(MatchDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -37,6 +40,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(match);
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("team/{teamId:int}", Name = "GetMatchesByTeamId")]
         [ProducesResponseType(typeof(IEnumerable<MatchDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -50,6 +54,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(matches);
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("date-range", Name = "GetMatchesByDateRange")]
         [ProducesResponseType(typeof(IEnumerable<MatchDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -67,6 +72,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(matches);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost(Name = "CreateMatch")]
         [ProducesResponseType(typeof(MatchDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -82,6 +88,7 @@ namespace LeagueMaster.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}", Name = "UpdateMatch")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -102,6 +109,7 @@ namespace LeagueMaster.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}", Name = "DeleteMatch")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

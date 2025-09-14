@@ -140,19 +140,5 @@ namespace LeagueMaster.Application.Services
             return user;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllAsync()
-        {
-            var users = await userRepository.GetAllAsync();
-            return users.Select(user => new UserDto
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                Role = user.Role.ToString()
-            });
-
-
-        }
-
     }
 }

@@ -1,5 +1,6 @@
 using LeagueMaster.Application.DTOs.Players;
 using LeagueMaster.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeagueMaster.API.Controllers
@@ -11,6 +12,7 @@ namespace LeagueMaster.API.Controllers
         private readonly IPlayerService _service;
         public PlayersController(IPlayerService service) => _service = service;
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet(Name = "GetAllPlayers")]
         [ProducesResponseType(typeof(IEnumerable<PlayerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -24,6 +26,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(players);
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("{id:int}", Name = "GetPlayerById")]
         [ProducesResponseType(typeof(PlayerDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -37,6 +40,7 @@ namespace LeagueMaster.API.Controllers
             return Ok(player);
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("team/{teamId:int}", Name = "GetPlayersByTeamId")]
         [ProducesResponseType(typeof(IEnumerable<PlayerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -53,6 +57,7 @@ namespace LeagueMaster.API.Controllers
         [HttpPost(Name = "CreatePlayer")]
         [ProducesResponseType(typeof(PlayerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] PlayerInputDto dto)
         {
             if (!ModelState.IsValid) 
@@ -62,6 +67,7 @@ namespace LeagueMaster.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}", Name = "UpdatePlayer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -83,6 +89,7 @@ namespace LeagueMaster.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0) 

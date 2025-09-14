@@ -1,8 +1,10 @@
+using LeagueMaster.Application.DTOs.Players;
 using LeagueMaster.Application.DTOs.User;
 using LeagueMaster.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace LeagueMaster.API.Controllers
 {
@@ -63,8 +65,12 @@ namespace LeagueMaster.API.Controllers
         [HttpGet("authentication-only")]
         public IActionResult AuthenticationOnly()
         {
-            // This endpoint can only be accessed by authenticated users
-            return Ok("You are authenticated");
+            // ASP.NET automatically checks if user has "Admin" role claim
+            var userName = User.Identity?.Name; 
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; 
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;       
+
+            return Ok($"Hello {userName}, You are a User.\nYour ID is {userId}\nEmail: {userEmail}");
 
         }
 
@@ -72,11 +78,12 @@ namespace LeagueMaster.API.Controllers
         [HttpGet("admin-only")]
         public IActionResult AdminOnly()
         {
-            // This endpoint can only be accessed by users with the "Admin" role
-            return Ok("You are an admin");
+            var userName = User.Identity?.Name;        
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; 
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;      
+
+            return Ok($"Hello {userName}, You are an Admin.\nYour ID is {userId}\nEmail: {userEmail}");
         }
-
-
 
 
     }
