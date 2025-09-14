@@ -9,7 +9,8 @@ namespace LeagueMaster.Application.Mappings
         public PlayerProfile()
         {
             CreateMap<Player, PlayerDto>()
-                .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team.Name));
+                .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team.Name))
+                .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Position.ToString()));
 
             CreateMap<PlayerInputDto, Player>();
         }

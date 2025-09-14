@@ -16,13 +16,18 @@ namespace LeagueMaster.Infrastructure.Repositories
 
         public async Task<IEnumerable<Team>> GetAllAsync()
         {
-            return await _context.Teams.AsNoTracking().ToListAsync();
+            return await _context.Teams
+                .Include(t => t.League)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Team?> GetByIdAsync(int id)
         {
             return await _context.Teams
                 .Include(t => t.League)
+                .Include(t => t.Players)
+                .Include(t => t.Coach)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 

@@ -1,16 +1,13 @@
-using LeagueMaster.Domain.Enums;
-
-namespace LeagueMaster.Application.DTOs.Players
+namespace LeagueMaster.Application.DTOs.Coaches
 {
-    public class PlayerDto
+    public class CoachDto
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = null!;
         public string? LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
         public string Nationality { get; set; } = null!;
-        public string Position { get; set; } = null!;
-        public int ShirtNumber { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public int ExperienceYears { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; } = null!;
     }

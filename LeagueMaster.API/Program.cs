@@ -40,6 +40,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
     builder.Services.AddScoped<IPlayerService, PlayerService>();
 
+    builder.Services.AddScoped<ICoachRepository, CoachRepository>();
+    builder.Services.AddScoped<ICoachService, CoachService>();
+
 }
 
 var app = builder.Build();
