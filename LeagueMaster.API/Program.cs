@@ -43,6 +43,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<ICoachRepository, CoachRepository>();
     builder.Services.AddScoped<ICoachService, CoachService>();
 
+    builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+    builder.Services.AddScoped<IMatchService, MatchService>();
+
 }
 
 var app = builder.Build();
