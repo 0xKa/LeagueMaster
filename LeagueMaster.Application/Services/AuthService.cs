@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LeagueMaster.Application.DTOs.Team;
 using LeagueMaster.Application.DTOs.User;
 using LeagueMaster.Application.Interfaces.Repositories;
 using LeagueMaster.Application.Interfaces.Services;
@@ -30,22 +31,22 @@ namespace LeagueMaster.Application.Services
             user.Username = userDto.Username;
             user.Email = userDto.Email;
             user.PasswordHash = hashedPassword;
-            user.Role = UserRole.User; 
+            user.Role = userDto.Role;
 
             await userRepository.AddAsync(user);
             return user;
         }
 
-        public async Task<TokenResponseDto?> LoginAsync(UserInputDto userDto)
+        public async Task<TokenResponseDto?> LoginAsync(string username, string password)
         {
-            var user = await userRepository.GetByUsernameAsync(userDto.Username);
+            var user = await userRepository.GetByUsernameAsync(username);
             if (user is null)
             {
                 return null; // User not found
             }
 
             var result = new PasswordHasher<User>()
-                .VerifyHashedPassword(user, user.PasswordHash, userDto.Password);
+                .VerifyHashedPassword(user, user.PasswordHash, password);
 
             if (result == PasswordVerificationResult.Failed)
             {
@@ -110,6 +111,7 @@ namespace LeagueMaster.Application.Services
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
                 ExpiresAt = DateTime.UtcNow.AddMinutes(configuration.GetValue<int>("AppSettings:TokenExpirationMinutes")),
+                UserId = user.Id,
                 Username = user.Username
             };
         }
@@ -137,5 +139,20 @@ namespace LeagueMaster.Application.Services
 
             return user;
         }
+
+        public async Task<IEnumerable<UserDto>> GetAllAsync()
+        {
+            var users = await userRepository.GetAllAsync();
+            return users.Select(user => new UserDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                Role = user.Role.ToString()
+            });
+
+
+        }
+
     }
 }
