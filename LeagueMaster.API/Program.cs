@@ -37,6 +37,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<ITeamRepository, TeamRepository>();
     builder.Services.AddScoped<ITeamService, TeamService>();
 
+    builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+    builder.Services.AddScoped<IPlayerService, PlayerService>();
+
 }
 
 var app = builder.Build();
