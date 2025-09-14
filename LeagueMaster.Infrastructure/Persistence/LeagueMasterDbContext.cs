@@ -14,6 +14,7 @@ namespace LeagueMaster.Infrastructure.Persistence
         public DbSet<Player> Players { get; set; }
         public DbSet<Coach> Coaches { get; set; }
         public DbSet<Match> Matches { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -10,61 +10,56 @@ using LeagueMaster.Application.Interfaces.Repositories;
 using LeagueMaster.Application.Interfaces.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-{
-    // Add services
-    builder.Services.AddControllers();
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
 
-    // AutoMapper
-    builder.Services.AddAutoMapper(cfg =>
-    {
-        cfg.AddMaps(typeof(LeagueProfile).Assembly); // Assembly scanning(automatically finds all profiles)
-    });
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-    // DB 
-    var conn = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<LeagueMasterDbContext>(option => 
-        option.UseSqlServer(conn)
-              // console logging ... might use serilog later
-              .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-              .EnableSensitiveDataLogging()); 
+// auto mapper assembly scanning (automatically finds all profiles)
+builder.Services.AddAutoMapper(cfg =>{ cfg.AddMaps(typeof(LeagueProfile).Assembly); });
 
-    // DI: repository (Infrastructure) and service (Application)
-    builder.Services.AddScoped<ILeagueRepository, LeagueRepository>();
-    builder.Services.AddScoped<ILeagueService, LeagueService>();
+// DB 
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<LeagueMasterDbContext>(option => 
+    option.UseSqlServer(conn)
+            // console logging ... might use serilog later
+            .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+            .EnableSensitiveDataLogging()); 
 
-    builder.Services.AddScoped<ITeamRepository, TeamRepository>();
-    builder.Services.AddScoped<ITeamService, TeamService>();
+// DI: repository (Infrastructure) and service (Application)
+builder.Services.AddScoped<ILeagueRepository, LeagueRepository>();
+builder.Services.AddScoped<ILeagueService, LeagueService>();
 
-    builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
-    builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
-    builder.Services.AddScoped<ICoachRepository, CoachRepository>();
-    builder.Services.AddScoped<ICoachService, CoachService>();
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
 
-    builder.Services.AddScoped<IMatchRepository, MatchRepository>();
-    builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<ICoachRepository, CoachRepository>();
+builder.Services.AddScoped<ICoachService, CoachService>();
 
-}
+builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+builder.Services.AddScoped<IMatchService, MatchService>();
+
 
 var app = builder.Build();
-{
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-        app.MapScalarApiReference(options =>
-        {
-            options.WithTitle("League Master API")
-                   .WithTheme(ScalarTheme.DeepSpace)
-                   .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
-                   .WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
-        });
-    }
 
-    app.UseHttpsRedirection();
-    app.UseAuthorization();
-    app.MapControllers();
-    app.Run();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("League Master API")
+                .WithTheme(ScalarTheme.DeepSpace)
+                .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+                .WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
+    });
 }
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
