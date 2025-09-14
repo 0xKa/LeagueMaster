@@ -12,6 +12,8 @@ namespace LeagueMaster.Infrastructure.Persistence.Configuration
             builder.Property(x => x.PasswordHash).IsRequired();
             builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
 
+            builder.HasIndex(x => x.Username).IsUnique();
+
         }
     }
 }

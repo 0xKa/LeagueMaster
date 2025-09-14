@@ -1,4 +1,5 @@
 ﻿using LeagueMaster.Application.DTOs.User;
+using LeagueMaster.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace LeagueMaster.Application.Interfaces.Services
 {
     public interface IAuthService
     {
-        Task<UserInputDto?> RegisterAsync(UserInputDto userDto);
+        Task<User?> RegisterAsync(UserInputDto userDto);
         Task<TokenResponseDto?> LoginAsync(UserInputDto userDto);
         Task<TokenResponseDto?> RefreshTokenAsync(RefreshTokenRequestDto request);
 

@@ -11,7 +11,7 @@ namespace LeagueMaster.Application.Interfaces.Repositories
         Task<User> AddAsync(User user);
         Task<bool> UpdateAsync(User user);
         Task<bool> DeleteAsync(int id);
-        Task<bool> ExistsAsync(string username, string email);
+        Task<bool> ExistsAsync(string username);
         Task<User?> GetByRefreshTokenAsync(string refreshToken);
     }
 }

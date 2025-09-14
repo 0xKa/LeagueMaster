@@ -54,9 +54,9 @@ namespace LeagueMaster.Infrastructure.Repositories
             return affected > 0;
         }
 
-        public async Task<bool> ExistsAsync(string username, string email)
+        public async Task<bool> ExistsAsync(string username)
         {
-            return await _context.Users.AnyAsync(u => u.Username == username || u.Email == email);
+            return await _context.Users.AnyAsync(u => u.Username == username);
         }
 
         public async Task<User?> GetByRefreshTokenAsync(string refreshToken)

@@ -4,6 +4,7 @@ using LeagueMaster.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeagueMaster.Infrastructure.Migrations
 {
     [DbContext(typeof(LeagueMasterDbContext))]
-    partial class LeagueMasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250914161644_AddUniqueIndexToUsername")]
+    partial class AddUniqueIndexToUsername
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
