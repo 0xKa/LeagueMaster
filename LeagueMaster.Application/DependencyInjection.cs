@@ -19,7 +19,6 @@ namespace LeagueMaster.Application
             services.AddScoped<ICoachService, CoachService>();
             services.AddScoped<IMatchService, MatchService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }

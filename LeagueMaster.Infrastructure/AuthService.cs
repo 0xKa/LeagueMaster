@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using LeagueMaster.Application.DTOs.Team;
-using LeagueMaster.Application.DTOs.User;
+﻿using LeagueMaster.Application.DTOs.User;
 using LeagueMaster.Application.Interfaces.Repositories;
 using LeagueMaster.Application.Interfaces.Services;
 using LeagueMaster.Domain.Entities;
-using LeagueMaster.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +10,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LeagueMaster.Application.Services
+namespace LeagueMaster.Infrastructure
 {
     public class AuthService(IUserRepository userRepository, IConfiguration configuration) : IAuthService
     {

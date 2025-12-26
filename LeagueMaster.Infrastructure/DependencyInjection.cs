@@ -1,4 +1,5 @@
 ﻿using LeagueMaster.Application.Interfaces.Repositories;
+using LeagueMaster.Application.Interfaces.Services;
 using LeagueMaster.Infrastructure.Persistence;
 using LeagueMaster.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace LeagueMaster.Infrastructure
             services.AddScoped<ICoachRepository, CoachRepository>();
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
