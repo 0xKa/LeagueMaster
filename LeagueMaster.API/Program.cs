@@ -1,16 +1,9 @@
-using AutoMapper;
-using LeagueMaster.Application.Mappings;
-using LeagueMaster.Application.Services;
-using LeagueMaster.Infrastructure.Persistence;
-using LeagueMaster.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Scalar.AspNetCore;
-using System.Reflection;
-using LeagueMaster.Application.Interfaces.Repositories;
-using LeagueMaster.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Scalar.AspNetCore;
+using LeagueMaster.Application;
+using LeagueMaster.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,16 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// auto mapper assembly scanning (automatically finds all profiles)
-builder.Services.AddAutoMapper(cfg =>{ cfg.AddMaps(typeof(LeagueProfile).Assembly); });
-
-// DB 
-var conn = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<LeagueMasterDbContext>(option => 
-    option.UseSqlServer(conn)
-            // console logging ... might use serilog later
-            .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-            .EnableSensitiveDataLogging()); 
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -47,27 +32,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// DI: repository (Infrastructure) and service (Application)
-builder.Services.AddScoped<ILeagueRepository, LeagueRepository>();
-builder.Services.AddScoped<ILeagueService, LeagueService>();
-
-builder.Services.AddScoped<ITeamRepository, TeamRepository>();
-builder.Services.AddScoped<ITeamService, TeamService>();
-
-builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
-builder.Services.AddScoped<IPlayerService, PlayerService>();
-
-builder.Services.AddScoped<ICoachRepository, CoachRepository>();
-builder.Services.AddScoped<ICoachService, CoachService>();
-
-builder.Services.AddScoped<IMatchRepository, MatchRepository>();
-builder.Services.AddScoped<IMatchService, MatchService>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -78,7 +42,7 @@ if (app.Environment.IsDevelopment())
     {
         options.WithTitle("League Master API")
                 .WithTheme(ScalarTheme.DeepSpace)
-                .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+                .WithDefaultHttpClient(ScalarTarget.Shell, ScalarClient.Curl)
                 .WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
     });
 }
